@@ -19,6 +19,8 @@ li {
     margin-left: 30px;
     padding: 10px;
     cursor: pointer;
+    border-radius: 12px;
+    background-color: #898AC4;
 }
 
 .del-button:hover{

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import './App.css'
 import History from './History'
+import Description from './Description'
 
 function App() {
   const [result, setResult] = useState("") // membuat state bernama result untuk menyimpan input 
@@ -64,7 +65,8 @@ function App() {
 
   return (
     <div className='container'>
-      <audio ref={audioRef} src="/assets/Toom Click.wav" preload="auto"/> 
+      <audio ref={audioRef} src="/assets/Toom Click.wav" preload="auto" />
+      <Description />
       <div className="calculator">
         <input type="text" value={result} disabled />
 
