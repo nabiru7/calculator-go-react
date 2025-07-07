@@ -9,15 +9,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  
+}
+
+.container{
+  display: flex;
+  align-items: flex-start; 
+  gap: 32px;
 }
 
 .calculator {
-  background-color: #fff;
+  background-color: #26355D;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  width: 320px;
+  width: 350px;
   color: #333;
 }
 
@@ -51,6 +57,7 @@ button {
 
 button.number {
   background-color: #C0C9EE;
+  color: #333;
 }
 button.number:hover {
   background-color: #A2AADB;
@@ -71,4 +78,10 @@ button.counter {
 }
 button.counter:hover {
   background-color: #123458;
+}
+
+.history-box{
+  background-color: #123458;
+  border-radius: 15px;
+  padding: 20px;
 }
