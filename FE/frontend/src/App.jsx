@@ -3,34 +3,40 @@ import './App.css'
 import History from './History'
 
 function App() {
-  const [result, setResult] = useState("") //membuat state bernama result untuk menyimpan input 
-  const [history, setHistory] = useState([]);
+  const [result, setResult] = useState("") // membuat state bernama result untuk menyimpan input 
+  const [history, setHistory] = useState([]); // state untuk menyimpan riwayat perhitungan
 
+  // function untuk handle click dari setiap button
   const handleClick = e => setResult(result.concat(e.target.id))
 
+  // function untuk hapus seluruh input (di input tab)
   const handleClear = () => setResult("")
 
+  // function untuk hapus satu karakter terakhir di input tab
   const deleteBtn = () => setResult(result.slice(0, -1))
 
+  // untuk kalkulasi setiap angka yang diinput oleh user
   const calculate = () => {
     try {
-      const replaced = result.replace(/(\d+)%/g, (_, num) => `(${num}*0.01)`)
-      const evalResult = eval(replaced).toString() // tambahkan baris ini
-      setResult(evalResult)
+      const replaced = result.replace(/(\d+)%/g, (_, num) => `(${num}*0.01)`) // untuk persen
+      const evalResult = eval(replaced).toString() // menghitung hasil output
+      setResult(evalResult) // mengatur atau memunculkan bagian histori dari hasil kalkulasi
       setHistory([...history, `${result} = ${evalResult}`])
-    } catch (error) {
+    } catch (error) { // jika error
       setResult("Error")
     }
   }
+  // untuk menghitung akar kuadrat 
   const squareRoot = () => {
     try {
       const value = Math.sqrt(parseFloat(result))
       setResult(value.toString())
-    } catch {
+    } catch { // jika error
       setResult("Error")
     }
   }
 
+  // untuk menghapus salah satu riwayat perhitungan (by index)
   const deleteHistoryItem = (index) => {
     setHistory(history.filter((_, i) => i !== index));
   }
