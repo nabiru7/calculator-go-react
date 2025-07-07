@@ -1,22 +1,41 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 import History from './History'
 
 function App() {
   const [result, setResult] = useState("") // membuat state bernama result untuk menyimpan input 
   const [history, setHistory] = useState([]); // state untuk menyimpan riwayat perhitungan
+  const audioRef = useRef(null) // untuk memunculkan audio ketika diclick
+
+  // Fungsi untuk memutar audio ketika button diclick
+  const playClickSound = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0
+      audioRef.current.play()
+    }
+  }
 
   // function untuk handle click dari setiap button
-  const handleClick = e => setResult(result.concat(e.target.id))
+  const handleClick = e => {
+    playClickSound()
+    setResult(result.concat(e.target.id))
+  }
 
   // function untuk hapus seluruh input (di input tab)
-  const handleClear = () => setResult("")
+  const handleClear = () => {
+    playClickSound()
+    setResult("")
+  }
 
   // function untuk hapus satu karakter terakhir di input tab
-  const deleteBtn = () => setResult(result.slice(0, -1))
+  const deleteBtn = () => {
+    playClickSound()
+    setResult(result.slice(0, -1))
+  }
 
   // untuk kalkulasi setiap angka yang diinput oleh user
   const calculate = () => {
+    playClickSound()
     try {
       const replaced = result.replace(/(\d+)%/g, (_, num) => `(${num}*0.01)`) // untuk persen
       const evalResult = eval(replaced).toString() // menghitung hasil output
@@ -28,6 +47,7 @@ function App() {
   }
   // untuk menghitung akar kuadrat 
   const squareRoot = () => {
+    playClickSound()
     try {
       const value = Math.sqrt(parseFloat(result))
       setResult(value.toString())
@@ -38,12 +58,13 @@ function App() {
 
   // untuk menghapus salah satu riwayat perhitungan (by index)
   const deleteHistoryItem = (index) => {
+    playClickSound()
     setHistory(history.filter((_, i) => i !== index));
   }
 
   return (
     <div className='container'>
-
+      <audio ref={audioRef} src="/assets/Toom Click.wav" preload="auto"/> 
       <div className="calculator">
         <input type="text" value={result} disabled />
 

@@ -9,12 +9,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 }
 
-.container{
+.container {
   display: flex;
-  align-items: flex-start; 
+  align-items: flex-start;
   gap: 32px;
 }
 
@@ -59,6 +59,7 @@ button.number {
   background-color: #C0C9EE;
   color: #333;
 }
+
 button.number:hover {
   background-color: #A2AADB;
 }
@@ -67,6 +68,7 @@ button.operator {
   background-color: #7AE2CF;
   color: #333;
 }
+
 button.operator:hover {
   background-color: #077A7D;
 }
@@ -76,12 +78,18 @@ button.counter {
   color: whitesmoke;
   grid-column: span 2;
 }
+
 button.counter:hover {
   background-color: #123458;
 }
 
-.history-box{
+.history-box {
   background-color: #123458;
   border-radius: 15px;
   padding: 20px;
+  height: 530px;
+  width: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
