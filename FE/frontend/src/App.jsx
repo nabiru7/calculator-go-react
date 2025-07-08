@@ -119,7 +119,14 @@ function App() {
 
           <button id="00" className="number" onClick={handleClick}>00</button>
           <button id="0" className="number" onClick={handleClick}>0</button>
-          <button id="=" className="counter" onClick={calculate} disabled={result === ""}>=</button>
+          <button
+            id="="
+            className="counter"
+            onClick={calculate} // supaya saat muncul error, hasilnya tidak dapat dikalkulasi 
+            disabled={result === "" || result === "Error"}
+          >
+            =
+          </button>
         </div>
       </div>
       <div className="history-box">

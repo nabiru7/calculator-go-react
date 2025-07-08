@@ -1,10 +1,10 @@
-import "./Description.css";
+import "./Description.css"
 
 function Description() {
   return (
     <div className="description">
-      <h2>👋 Selamat Datang!</h2>
-      <p>Semoga harimu menyenangkan 😃</p>
+      <h2>Selamat Datang!</h2>
+      <p>Semoga harimu menyenangkan😃</p>
       <p>
         {new Date().toLocaleDateString('id-ID', {
           weekday: 'long',
@@ -30,7 +30,7 @@ function Description() {
         <li>Hapus semua (<b>AC</b>)</li>
       </ul>
     </div>
-  );
+  )
 }
 
-export default Description;
+export default Description
