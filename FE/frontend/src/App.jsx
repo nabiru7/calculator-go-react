@@ -19,7 +19,26 @@ function App() {
   // function untuk handle click dari setiap button
   const handleClick = e => {
     playClickSound()
-    setResult(result.concat(e.target.id))
+    const value = e.target.id
+
+    // Cegah angka dengan awalan nol ganda setelah operator atau di awal
+    if (value === "00") {
+      // Jika input kosong atau setelah operator, tambahkan hanya satu "0"
+      if (
+        result === "" ||
+        /[+\-*/(]$/.test(result) // logicnya
+      ) {
+        setResult(result + "0")
+        return
+      }
+      // Jika sebelumnya sudah ada satu nol setelah operator, jangan tambah lagi
+      const lastOperatorMatch = result.match(/([+\-*/(])0$/)
+      if (lastOperatorMatch) {
+        return
+      }
+    }
+
+    setResult(result.concat(value))
   }
 
   // function untuk hapus seluruh input (di input tab)
@@ -74,18 +93,18 @@ function App() {
 
           <button className="operator" onClick={handleClear}>AC</button>
           <button className="operator" onClick={deleteBtn}>DEL</button>
-          <button id="%" className="operator" onClick={handleClick}>%</button>
-          <button className="operator" onClick={squareRoot}>√</button>
+          <button id="%" className="operator" onClick={handleClick} disabled={result === ""}>%</button>
+          <button className="operator" onClick={squareRoot} disabled={result === ""}>√</button>
 
           <button id="(" className="operator" onClick={handleClick}>(</button>
           <button id=")" className="operator" onClick={handleClick}>)</button>
-          <button id="." className="operator" onClick={handleClick}>.</button>
-          <button id="/" className="operator" onClick={handleClick}>:</button>
+          <button id="." className="operator" onClick={handleClick} disabled={result === ""}>.</button>
+          <button id="/" className="operator" onClick={handleClick} disabled={result === ""}> :</button>
 
           <button id="7" className="number" onClick={handleClick}>7</button>
           <button id="8" className="number" onClick={handleClick}>8</button>
           <button id="9" className="number" onClick={handleClick}>9</button>
-          <button id="*" className="operator" onClick={handleClick}>x</button>
+          <button id="*" className="operator" onClick={handleClick} disabled={result === ""}>x</button>
 
           <button id="4" className="number" onClick={handleClick}>4</button>
           <button id="5" className="number" onClick={handleClick}>5</button>
@@ -100,7 +119,7 @@ function App() {
 
           <button id="00" className="number" onClick={handleClick}>00</button>
           <button id="0" className="number" onClick={handleClick}>0</button>
-          <button id="=" className="counter" onClick={calculate}>=</button>
+          <button id="=" className="counter" onClick={calculate} disabled={result === ""}>=</button>
         </div>
       </div>
       <div className="history-box">
