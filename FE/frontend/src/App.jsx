@@ -57,14 +57,26 @@ function App() {
   const calculate = () => {
     playClickSound()
     try {
-      const replaced = result.replace(/(\d+)%/g, (_, num) => `(${num}*0.01)`) // untuk persen
-      const evalResult = eval(replaced).toString() // menghitung hasil output
-      setResult(evalResult) // mengatur atau memunculkan bagian histori dari hasil kalkulasi
+      // Ganti persen jadi bentuk desimal
+      const replaced = result.replace(/(\d+)%/g, (_, num) => `(${num}*0.01)`)
+
+      // Ganti operator ^ jadi Math.pow()
+      const replacedPower = replaced.replace(
+        /(\d+(\.\d+)?)\^(\d+(\.\d+)?)/g,
+        (match, base, baseDecimal, exponent, exponentDecimal) => {
+          return `Math.pow(${base}, ${exponent})`
+        }
+      )
+
+      const evalResult = eval(replacedPower).toString()
+      setResult(evalResult)
       setHistory([...history, `${result} = ${evalResult}`])
-    } catch (error) { // jika error
+    } catch (error) {
       setResult("Error")
     }
   }
+
+
   // untuk menghitung akar kuadrat 
   const squareRoot = () => {
     playClickSound()
@@ -98,7 +110,7 @@ function App() {
 
           <button id="(" className="operator" onClick={handleClick}>(</button>
           <button id=")" className="operator" onClick={handleClick}>)</button>
-          <button id="." className="operator" onClick={handleClick} disabled={result === ""}>.</button>
+          <button id="^" className="operator" onClick={handleClick} disabled={result === ""}>^</button>
           <button id="/" className="operator" onClick={handleClick} disabled={result === ""}> :</button>
 
           <button id="7" className="number" onClick={handleClick}>7</button>
@@ -119,6 +131,7 @@ function App() {
 
           <button id="00" className="number" onClick={handleClick}>00</button>
           <button id="0" className="number" onClick={handleClick}>0</button>
+          <button id="." className="number" onClick={handleClick} disabled={result === ""}>.</button>
           <button
             id="="
             className="counter"

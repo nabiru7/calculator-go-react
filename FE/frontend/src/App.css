@@ -76,7 +76,7 @@ button.operator:hover {
 button.counter {
   background-color: #898AC4;
   color: whitesmoke;
-  grid-column: span 2;
+  grid-column: span 1;
 }
 
 button.counter:hover {
