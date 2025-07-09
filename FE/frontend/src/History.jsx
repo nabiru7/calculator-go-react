@@ -1,6 +1,6 @@
 import React from "react"
 import "./History.css"
-import LatinResult from "./LatinResult";
+import LatinResult from './LatinResult.jsx';
 
 // Komponen History menerima dua props:
 // 1. history perhitungam
