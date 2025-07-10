@@ -9,6 +9,12 @@ const History = ({ history, handleDelete }) => {
     return (
         <div className="history-container">
             <h2>History</h2>
+            {/* <button className="reset" onClick={() => { // reset button
+                setResult("");
+                setHistory([]);
+                localStorage.removeItem("calc_result");
+                localStorage.removeItem("calc_history");
+            }}>Reset All</button> */}
             <ul>
                 {history.map((item, index) => (
                     <li key={index}>
@@ -17,7 +23,7 @@ const History = ({ history, handleDelete }) => {
                             <div>{item}</div>
 
                             {/* untuk menampilkan output dari kalkulasi dalam bentuk kata */}
-                            <LatinResult result={item} /> 
+                            <LatinResult result={item} />
                         </div>
                         <button className="del-button" onClick={() => handleDelete(index)}>Delete</button>
                     </li>

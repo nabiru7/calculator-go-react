@@ -1,12 +1,28 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react' // ditambahkan useEffect (menjaga data saat refresh)
 import './App.css'
 import History from './History'
 import Description from './Description'
 
 function App() {
-  const [result, setResult] = useState("") // membuat state bernama result untuk menyimpan input 
-  const [history, setHistory] = useState([]); // state untuk menyimpan riwayat perhitungan
+  // membuat state bernama result untuk menyimpan input 
+  const [result, setResult] = useState(() => localStorage.getItem('calc_result') || "")
+  // state untuk menyimpan riwayat perhitungan 
+  const [history, setHistory] = useState(() => {
+    const stored = localStorage.getItem('calc_history')
+    return stored ? JSON.parse(stored) : []
+  })
+
   const audioRef = useRef(null) // untuk memunculkan audio ketika diclick
+
+  // Simpan result ke localStorage setiap kali result berubah (supaya tidak hilang saat refresh)
+  useEffect(() => {
+    localStorage.setItem('calc_result', result)
+  }, [result])
+
+  // Simpan history ke localStorage setiap kali history berubah (supaya tidak hilanng saat refresh)
+  useEffect(() => {
+    localStorage.setItem('calc_history', JSON.stringify(history))
+  }, [history])
 
   // Fungsi untuk memutar audio ketika button diclick
   const playClickSound = () => {
@@ -21,25 +37,16 @@ function App() {
     playClickSound()
     const value = e.target.id
 
-    // Cegah angka dengan awalan nol ganda setelah operator atau di awal
+    // Izinkan angka dengan awalan nol ganda seperti "00" agar tampil di layar
+    // karena akan ditangani saat proses kalkulasi agar tidak error
     if (value === "00") {
-      // Jika input kosong atau setelah operator, tambahkan hanya satu "0"
-      if (
-        result === "" ||
-        /[+\-*/(]$/.test(result) // logicnya
-      ) {
-        setResult(result + "0")
-        return
-      }
-      // Jika sebelumnya sudah ada satu nol setelah operator, jangan tambah lagi
-      const lastOperatorMatch = result.match(/([+\-*/(])0$/)
-      if (lastOperatorMatch) {
-        return
-      }
+      setResult(result + value)
+      return
     }
 
     setResult(result.concat(value))
   }
+
 
   // function untuk hapus seluruh input (di input tab)
   const handleClear = () => {
@@ -53,22 +60,38 @@ function App() {
     setResult(result.slice(0, -1))
   }
 
-  // untuk kalkulasi setiap angka yang diinput oleh user
+  const normalizeLeadingZeros = (expr) => {
+    // Fungsi normalizeLeadingZeros memisahkan string ekspresi berdasarkan operator/non-digit kecuali titik
+    // Dengan cara ini input seperti 002+3 akan menjadi 2+3 sebelum di-eval, tanpa mengubah 2.05 jadi 2.5.
+    return expr.split(/([^0-9.]+)/).map(token => {
+      // Token angka bulat tanpa titik, hapus leading zero
+      if (/^\d+$/.test(token)) {
+        const normalized = token.replace(/^0+/, '')
+        return normalized === '' ? '0' : normalized
+      }
+      // Token angka desimal atau operator/tanda baca, kembalikan apa adanya
+      return token
+    }).join('')
+  }
+
   const calculate = () => {
     playClickSound()
     try {
       // Ganti persen jadi bentuk desimal
-      const replaced = result.replace(/(\d+)%/g, (_, num) => `(${num}*0.01)`)
+      let replaced = result.replace(/(\d+)%/g, (_, num) => `(${num}*0.01)`)
 
       // Ganti operator ^ jadi Math.pow()
-      const replacedPower = replaced.replace(
+      replaced = replaced.replace(
         /(\d+(\.\d+)?)\^(\d+(\.\d+)?)/g,
         (match, base, baseDecimal, exponent, exponentDecimal) => {
           return `Math.pow(${base}, ${exponent})`
         }
       )
 
-      const evalResult = eval(replacedPower).toString()
+      // Normalisasi leading zero dengan fungsi aman
+      replaced = normalizeLeadingZeros(replaced)
+
+      const evalResult = eval(replaced).toString()
       setResult(evalResult)
       setHistory([...history, `${result} = ${evalResult}`])
     } catch (error) {
@@ -96,7 +119,7 @@ function App() {
 
   return (
     // container yang menyimpan calculator, history dan description
-    <div className='container'> 
+    <div className='container'>
       <audio ref={audioRef} src="/assets/Toom Click.wav" preload="auto" />
       <Description />
       <div className="calculator">
@@ -122,7 +145,6 @@ function App() {
           <button id="5" className="number" onClick={handleClick}>5</button>
           <button id="6" className="number" onClick={handleClick}>6</button>
           <button id="-" className="operator" onClick={handleClick}>-</button>
-
 
           <button id="1" className="number" onClick={handleClick}>1</button>
           <button id="2" className="number" onClick={handleClick}>2</button>
