@@ -95,12 +95,12 @@ function App() {
   }
 
   return (
-    <div className='container'>
+    // container yang menyimpan calculator, history dan description
+    <div className='container'> 
       <audio ref={audioRef} src="/assets/Toom Click.wav" preload="auto" />
       <Description />
       <div className="calculator">
         <input type="text" value={result} disabled />
-
         <div className="buttons">
 
           <button className="operator" onClick={handleClear}>AC</button>
