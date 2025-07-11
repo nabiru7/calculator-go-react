@@ -10,7 +10,7 @@ Proyek ini memiliki struktur folder sebagai berikut: Folder backend/ berisi proy
 Pada bagian frontend, App.jsx merupakan komponen utama yang menyimpan state untuk input dan riwayat perhitungan. Komponen ini memiliki berbagai fungsi seperti memasukkan angka dan operator, menghapus karakter atau semua input, melakukan perhitungan hasil, serta menghitung akar kuadrat. Saat tombol ditekan, aplikasi juga memainkan suara klik sebagai umpan balik. Komponen App menampilkan komponen Description yang berisi deskripsi aplikasi dan komponen History yang menampilkan daftar riwayat perhitungan. Komponen Description.jsx bertugas menampilkan pesan sambutan beserta tanggal hari ini serta daftar operasi matematika yang tersedia seperti penjumlahan (+), pengurangan (-), perkalian (x), pembagian (:), persen (%), dan akar kuadrat (√). Sementara itu, History.jsx menampilkan riwayat perhitungan dalam bentuk daftar lengkap dengan tombol hapus untuk setiap item. Komponen ini juga menggunakan LatinResult.jsx untuk mengubah hasil perhitungan numerik menjadi kata-kata dalam bahasa Indonesia.
 
 ## Backend (Go) 
-*Belum Selesai
+*Belum Selesai,
 Bagian backend proyek ini berada di dalam folder backend/. Backend dikembangkan menggunakan bahasa Go dan terdiri dari modul serta source code utama yang dapat dikembangkan untuk berbagai fitur tambahan seperti autentikasi pengguna, atau pengolahan data lainnya sesuai kebutuhan.
 
 ## Cara Menjalankan (Frontend)

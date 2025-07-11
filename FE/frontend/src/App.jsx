@@ -12,7 +12,8 @@ function App() {
     return stored ? JSON.parse(stored) : []
   })
 
-  const audioRef = useRef(null) // untuk memunculkan audio ketika diclick
+  const audioRef = useRef(null) // untuk menyimpan referensi ke elemen audio
+  // Supaya kita bisa mengatur suara apa yang dimunculkan ketika di-click
 
   // Simpan result ke localStorage setiap kali result berubah (supaya tidak hilang saat refresh)
   useEffect(() => {
@@ -61,13 +62,13 @@ function App() {
   }
 
   const normalizeLeadingZeros = (expr) => {
-    // Fungsi normalizeLeadingZeros memisahkan string ekspresi berdasarkan operator/non-digit kecuali titik
-    // Dengan cara ini input seperti 002+3 akan menjadi 2+3 sebelum di-eval, tanpa mengubah 2.05 jadi 2.5.
+    // memisahkan string ekspresi berdasarkan operator/non-digit kecuali titik
+    // dengan cara ini input seperti 002+3 akan menjadi 2+3 sebelum di-eval, tanpa mengubah 2.05 jadi 2.5.
     return expr.split(/([^0-9.]+)/).map(token => {
       // Token angka bulat tanpa titik, hapus leading zero
       if (/^\d+$/.test(token)) {
-        const normalized = token.replace(/^0+/, '')
-        return normalized === '' ? '0' : normalized
+        const normalized = token.replace(/^0+/, '') // hapus nol di depan
+        return normalized === '' ? '0' : normalized // jika 0 = kosong, kembalikan 0
       }
       // Token angka desimal atau operator/tanda baca, kembalikan apa adanya
       return token
@@ -88,10 +89,13 @@ function App() {
         }
       )
 
-      // Normalisasi leading zero dengan fungsi aman
+      // untuk menghapus atau memperbaiki angka-angka yang memiliki awalan nol (leading zero)
       replaced = normalizeLeadingZeros(replaced)
 
+      // untuk kalkulasi sederhana
       const evalResult = eval(replaced).toString()
+
+      // memunculkan hasil-hasil kalkulasi
       setResult(evalResult)
       setHistory([...history, `${result} = ${evalResult}`])
     } catch (error) {
@@ -123,6 +127,7 @@ function App() {
       <audio ref={audioRef} src="/assets/Toom Click.wav" preload="auto" />
       <Description />
       <div className="calculator">
+        {/* berfungsi sebagai tempat user melihat input dan hasil, tapi tidak bisa langsung diketik */}
         <input type="text" value={result} disabled />
         <div className="buttons">
 
