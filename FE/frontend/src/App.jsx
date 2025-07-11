@@ -6,13 +6,15 @@ import Description from './Description'
 function App() {
   // membuat state bernama result untuk menyimpan input 
   const [result, setResult] = useState(() => localStorage.getItem('calc_result') || "")
+
   // state untuk menyimpan riwayat perhitungan 
   const [history, setHistory] = useState(() => {
     const stored = localStorage.getItem('calc_history')
     return stored ? JSON.parse(stored) : []
   })
 
-  const audioRef = useRef(null) // untuk menyimpan referensi ke elemen audio
+  const audioRef = useRef(null) 
+  // untuk menyimpan referensi ke elemen audio
   // Supaya kita bisa mengatur suara apa yang dimunculkan ketika di-click
 
   // Simpan result ke localStorage setiap kali result berubah (supaya tidak hilang saat refresh)
@@ -65,7 +67,7 @@ function App() {
     // memisahkan string ekspresi berdasarkan operator/non-digit kecuali titik
     // dengan cara ini input seperti 002+3 akan menjadi 2+3 sebelum di-eval, tanpa mengubah 2.05 jadi 2.5.
     return expr.split(/([^0-9.]+)/).map(token => {
-      // Token angka bulat tanpa titik, hapus leading zero
+      // Token bilangan bulat tanpa titik, hapus leading zero
       if (/^\d+$/.test(token)) {
         const normalized = token.replace(/^0+/, '') // hapus nol di depan
         return normalized === '' ? '0' : normalized // jika 0 = kosong, kembalikan 0

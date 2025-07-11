@@ -30,6 +30,7 @@ function numberToWordsIDString(numStr) {
 }
 
 function convertIntegerWithZero(str, satuan) {
+  // jika hasilnya memang nol, outputnya akan "nol"
   if (/^0+$/.test(str)) return "nol";
 
   // Jika benar-benar leading zero seperti "003", "0005", baca satu-satu
